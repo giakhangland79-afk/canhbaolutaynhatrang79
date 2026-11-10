@@ -1,0 +1,910 @@
+```html
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mạng Xã Hội Cứu Hộ & Cảnh Báo Lũ Nha Trang - Diên Khánh</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                            800: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .ticker-wrap { overflow: hidden; white-space: nowrap; }
+        .ticker-move { display: inline-block; animation: ticker 30s linear infinite; }
+        .ticker-move:hover { animation-play-state: paused; }
+        @keyframes ticker {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .pulse-danger { animation: pulseRed 1.5s infinite; }
+        @keyframes pulseRed {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            50% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased font-sans min-h-screen flex flex-col pb-16">
+
+    <!-- Top Urgent Warning Ticker -->
+    <div class="bg-gradient-to-r from-red-700 via-red-600 to-red-800 text-white text-xs sm:text-sm py-2 px-4 shadow-lg flex items-center z-50 sticky top-0">
+        <span class="bg-red-950 border border-red-400 text-red-200 text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider flex items-center mr-3 animate-pulse shrink-0 shadow-md">
+            <i class="fa-solid fa-triangle-exclamation text-yellow-400 mr-1.5 text-xs"></i> 🆘 KHẨN CẤP MƯA LŨ
+        </span>
+        <div class="ticker-wrap w-full overflow-hidden">
+            <div class="ticker-move font-semibold">
+                <span>🌊 Sông Cái dâng báo động 3: Diên Khánh, Tây Nha Trang (Vĩnh Trung, Vĩnh Thạnh) ngập sâu hơn 1.2m! Bà con gọi Cứu Hộ 114 ngay! &nbsp;&nbsp;•&nbsp;&nbsp;</span>
+                <span>🚗 Tuyến 23/10 đoạn qua Cầu Lố & Diên An bị chia cắt - Cấm phương tiện qua lại &nbsp;&nbsp;•&nbsp;&nbsp;</span>
+                <span>📦 Trạm cứu trợ khẩn cấp: Trường THPT Nguyễn Trãi (Diên Khánh) cung cấp nhu yếu phẩm & chỗ trú ẩn &nbsp;&nbsp;•&nbsp;&nbsp;</span>
+                <span>⚠️ Bắc Nha Trang: Nguy cơ sạt lở đèo Rốch Rẹt & Vĩnh Phương - Tối đa chú ý! &nbsp;&nbsp;•&nbsp;&nbsp;</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="bg-slate-900/90 backdrop-blur-md text-white border-b border-slate-800 sticky top-[36px] z-40 shadow-xl">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
+            
+            <!-- Logo & Title -->
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="resetFilters()">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-red-600 via-orange-500 to-blue-600 flex items-center justify-center text-white shadow-lg shadow-red-500/20 ring-2 ring-white/10">
+                    <i class="fa-solid fa-hand-holding-hand text-xl animate-bounce"></i>
+                </div>
+                <div>
+                    <h1 class="text-sm sm:text-base font-black leading-tight bg-gradient-to-r from-red-400 via-yellow-200 to-cyan-300 bg-clip-text text-transparent uppercase tracking-tight">
+                        MẠNG XÃ HỘI CỨU HỘ KHÁNH HÒA
+                    </h1>
+                    <p class="text-[10px] text-slate-400 font-medium">Diên Khánh • Nha Trang • Cập nhật Realtime</p>
+                </div>
+            </div>
+
+            <!-- Quick Action Buttons -->
+            <div class="flex items-center space-x-2">
+                <button onclick="openSosModal()" class="pulse-danger bg-red-600 hover:bg-red-500 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-black flex items-center gap-1.5 transition-all active:scale-95 shadow-lg shadow-red-600/40">
+                    <i class="fa-solid fa-kit-medical text-yellow-300 text-sm"></i>
+                    <span class="hidden sm:inline">GỬI YÊU CẦU</span> CỨU HỘ 🆘
+                </button>
+
+                <button onclick="scrollToSupport()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all active:scale-95 shadow-md shadow-emerald-600/30">
+                    <i class="fa-solid fa-qrcode text-yellow-300"></i>
+                    <span class="hidden md:inline">Ủng Hộ</span> QR
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 mt-4 space-y-6 flex-grow w-full">
+
+        <!-- 1. Support Banner & Personal VietQR HUYNH VAN THIEU -->
+        <section id="support-section" class="bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 rounded-3xl p-5 sm:p-7 text-white shadow-2xl border border-slate-800 relative overflow-hidden">
+            <div class="absolute -right-12 -bottom-12 w-64 h-64 bg-red-600/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -left-12 -top-12 w-64 h-64 bg-emerald-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                <div class="lg:col-span-7 space-y-3">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold">
+                        <i class="fa-solid fa-heart-circle-check"></i> Chung Tay Đồng Hành Cùng Mưa Lũ Khánh Hòa
+                    </div>
+                    <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight">Mạng Xã Hội Cứu Hộ & Cảnh Báo Lũ Khánh Hòa</h2>
+                    <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                        Nền tảng kết nối trực tiếp <strong class="text-white">người dân gặp nạn, lực lượng cứu hộ, đội xuồng máy, và trạm cứu trợ</strong> tại huyện Diên Khánh và thành phố Nha Trang. Mọi đóng góp của bạn giúp ứng dụng nâng cấp dung lượng máy chủ lưu trữ Video / Ảnh khẩn cấp.
+                    </p>
+                    <div class="flex flex-wrap gap-2 pt-1 text-[11px] text-slate-300">
+                        <span class="bg-slate-800/90 px-2.5 py-1 rounded-lg border border-slate-700 text-cyan-300 font-semibold"><i class="fa-solid fa-satellite-dish mr-1"></i> Video/Ảnh Realtime</span>
+                        <span class="bg-slate-800/90 px-2.5 py-1 rounded-lg border border-slate-700 text-red-400 font-semibold"><i class="fa-solid fa-location-dot mr-1"></i> Định Vị GPS Khẩn Cấp</span>
+                        <span class="bg-slate-800/90 px-2.5 py-1 rounded-lg border border-slate-700 text-yellow-300 font-semibold"><i class="fa-solid fa-comments mr-1"></i> Tương Tác Cứu Hộ</span>
+                    </div>
+                </div>
+
+                <!-- Personal QR Display -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="bg-slate-900 border border-slate-700/80 p-4 rounded-2xl max-w-xs w-full text-slate-900 shadow-2xl relative">
+                        <div class="bg-white p-3 rounded-xl flex flex-col items-center">
+                            <div class="w-full flex justify-between items-center mb-1.5 px-1 border-b border-slate-100 pb-1.5">
+                                <span class="text-[10px] font-black text-red-600 tracking-wider flex items-center gap-1">
+                                    <i class="fa-solid fa-building-columns"></i> MB BANK
+                                </span>
+                                <span class="text-[9px] font-extrabold text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded">VietQR napas247</span>
+                            </div>
+
+                            <div class="relative cursor-pointer my-1 group" onclick="openQrModal()">
+                                <img id="qr-code-img" src="https://api.vietqr.io/image/970422-9888817121989-compact2.png?amount=0&addInfo=UNG%20HO%20APP%20BAO%20LU%20NHA%20TRANG&accountName=HUYNH%20VAN%20THIEU" 
+                                     alt="Mã QR HUYNH VAN THIEU" 
+                                     class="w-48 h-auto object-contain rounded-lg border border-slate-200 transition-transform group-hover:scale-105"
+                                     onerror="this.onerror=null; this.src='https://placehold.co/220x220/0284c7/FFFFFF?text=HUYNH+VAN+THIEU+QR';">
+                                <div class="absolute inset-0 bg-black/40 rounded-lg opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity text-white text-xs font-bold gap-1">
+                                    <i class="fa-solid fa-magnifying-glass-plus"></i> Phóng To Mã QR
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-slate-500 font-medium">Quét QR chuyển khoản ủng hộ vận hành App</p>
+                        </div>
+
+                        <div class="mt-3 space-y-1.5 text-white text-xs">
+                            <div class="flex justify-between items-center bg-slate-800/90 p-2 rounded-xl border border-slate-700">
+                                <div>
+                                    <span class="text-[9px] text-slate-400 block uppercase font-bold">Chủ tài khoản</span>
+                                    <span class="font-bold text-yellow-400 text-xs sm:text-sm">HUYNH VAN THIEU</span>
+                                </div>
+                                <i class="fa-solid fa-user-check text-emerald-400"></i>
+                            </div>
+
+                            <div class="flex justify-between items-center bg-slate-800/90 p-2 rounded-xl border border-slate-700">
+                                <div>
+                                    <span class="text-[9px] text-slate-400 block uppercase font-bold">Số tài khoản (MB Bank)</span>
+                                    <span id="stk-text" class="font-mono font-black text-emerald-400 text-sm tracking-wider">9888817121989</span>
+                                </div>
+                                <button onclick="copySTK()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] px-2.5 py-1 rounded-lg font-bold transition-all active:scale-95">
+                                    <i class="fa-regular fa-copy"></i> Chép STK
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. SOCIAL CATEGORIES / THƯ MỤC CHUYÊN BIỆT (Horizontal Scroll Tabs) -->
+        <section class="space-y-2">
+            <div class="flex items-center justify-between">
+                <h3 class="text-xs font-black uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                    <i class="fa-solid fa-layer-group text-blue-500"></i> Thư Mục Cập Nhật Chuyên Biệt
+                </h3>
+                <span class="text-[11px] text-slate-500">Chọn mục đích để xem hoặc gửi tin</span>
+            </div>
+
+            <!-- Categories Buttons -->
+            <div class="flex space-x-2 overflow-x-auto pb-2 no-scrollbar">
+                <button onclick="setCategory('ALL')" id="cat-ALL" class="cat-tab-btn active bg-blue-600 text-white px-3.5 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all shadow-md flex items-center gap-2 shrink-0">
+                    <i class="fa-solid fa-border-all"></i> Tất Cả Tin Bài
+                </button>
+
+                <button onclick="setCategory('SOS')" id="cat-SOS" class="cat-tab-btn bg-slate-900 border border-red-500/50 text-red-400 hover:bg-red-950 px-3.5 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 shrink-0">
+                    <i class="fa-solid fa-circle-exclamation text-red-500 animate-pulse"></i> 🆘 CẦN CỨU HỘ GẤP
+                </button>
+
+                <button onclick="setCategory('MEDIA')" id="cat-MEDIA" class="cat-tab-btn bg-slate-900 border border-slate-800 text-slate-300 hover:bg-slate-800 px-3.5 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 shrink-0">
+                    <i class="fa-solid fa-video text-cyan-400"></i> 🎥 VIDEO / HÌNH TRỰC TIẾP
+                </button>
+
+                <button onclick="setCategory('TRAFFIC')" id="cat-TRAFFIC" class="cat-tab-btn bg-slate-900 border border-slate-800 text-slate-300 hover:bg-slate-800 px-3.5 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 shrink-0">
+                    <i class="fa-solid fa-car-tunnel text-yellow-400"></i> 🚗 GIAO THÔNG & ĐƯỜNG NGẬP
+                </button>
+
+                <button onclick="setCategory('RELIEF')" id="cat-RELIEF" class="cat-tab-btn bg-slate-900 border border-slate-800 text-slate-300 hover:bg-slate-800 px-3.5 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 shrink-0">
+                    <i class="fa-solid fa-box-open text-emerald-400"></i> 📦 ĐIỂM CỨU TRỢ & TRÚ ẨN
+                </button>
+
+                <button onclick="setCategory('OFFICIAL')" id="cat-OFFICIAL" class="cat-tab-btn bg-slate-900 border border-slate-800 text-slate-300 hover:bg-slate-800 px-3.5 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 shrink-0">
+                    <i class="fa-solid fa-bullhorn text-orange-400"></i> 📢 THÔNG BÁO CHÍNH THỨC
+                </button>
+            </div>
+        </section>
+
+        <!-- 3. MAIN WORKSPACE (Form & Social Feed) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+            <!-- LEFT SIDE: POST FORM & HOTLINE -->
+            <div class="lg:col-span-5 space-y-5">
+                
+                <!-- Social Post Creation Card -->
+                <div class="bg-slate-900 rounded-3xl p-4 sm:p-5 border border-slate-800 shadow-xl space-y-4">
+                    <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-9 h-9 rounded-xl bg-blue-600/20 border border-blue-500/30 text-blue-400 flex items-center justify-center font-bold text-sm">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-sm text-white">Đăng Cập Nhật Lên Mạng Xã Hội</h3>
+                                <p class="text-[11px] text-slate-400">Chia sẻ hình ảnh, video, địa chỉ ngập lụt</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form id="social-post-form" onsubmit="handleCreatePost(event)" class="space-y-3.5">
+                        <!-- Category Picker inside Form -->
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-300 mb-1">1. Chọn Thư Mục Bài Đăng</label>
+                            <select id="form-category" class="w-full bg-slate-950 text-slate-200 border border-slate-700 rounded-xl px-3 py-2 text-xs font-semibold focus:outline-none focus:border-blue-500">
+                                <option value="MEDIA">🎥 Video / Hình Ảnh Trực Tiếp (Cập nhật tình hình)</option>
+                                <option value="SOS">🆘 Cần Cứu Hộ Khẩn Cấp (Nhà nghẽn nước, nguy hiểm)</option>
+                                <option value="TRAFFIC">🚗 Giao Thông & Đường Ngập (Điểm ngập, sạt lở)</option>
+                                <option value="RELIEF">📦 Điểm Cứu Trợ & Trạm Trú Ẩn (Phát cơm, nước, sạc pin)</option>
+                                <option value="OFFICIAL">📢 Thông Báo Từ Nguồn Chính Thức</option>
+                            </select>
+                        </div>
+
+                        <!-- Regional Location Detailed Selector -->
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-300 mb-1">2. Khu Vực Cụ Thể</label>
+                                <select id="form-location" class="w-full bg-slate-950 text-slate-200 border border-slate-700 rounded-xl px-2.5 py-2 text-xs font-semibold focus:outline-none focus:border-blue-500">
+                                    <optgroup label="Huyện Diên Khánh">
+                                        <option value="Diên Khánh (Diên An)">Diên Khánh - Xã Diên An</option>
+                                        <option value="Diên Khánh (Diên Toàn)">Diên Khánh - Xã Diên Toàn</option>
+                                        <option value="Diên Khánh (Diên Điền)">Diên Khánh - Xã Diên Điền</option>
+                                        <option value="Diên Khánh (Diên Thạnh)">Diên Khánh - Xã Diên Thạnh</option>
+                                        <option value="Diên Khánh (Thị Trấn)">Diên Khánh - TT. Diên Khánh</option>
+                                        <option value="Diên Khánh (Khác)">Diên Khánh - Các xã khác</option>
+                                    </optgroup>
+                                    <optgroup label="Tây Nha Trang">
+                                        <option value="Tây NT (Vĩnh Trung)">Tây NT - Xã Vĩnh Trung</option>
+                                        <option value="Tây NT (Vĩnh Thạnh)">Tây NT - Xã Vĩnh Thạnh</option>
+                                        <option value="Tây NT (Vĩnh Hiệp)">Tây NT - Xã Vĩnh Hiệp</option>
+                                        <option value="Tây NT (Vĩnh Thái)">Tây NT - Xã Vĩnh Thái</option>
+                                    </optgroup>
+                                    <optgroup label="Bắc Nha Trang">
+                                        <option value="Bắc NT (Vĩnh Phương)">Bắc NT - Xã Vĩnh Phương</option>
+                                        <option value="Bắc NT (Vĩnh Hòa)">Bắc NT - Phường Vĩnh Hòa</option>
+                                        <option value="Bắc NT (Vĩnh Hải)">Bắc NT - Phường Vĩnh Hải</option>
+                                        <option value="Bắc NT (Vĩnh Lương)">Bắc NT - Xã Vĩnh Lương</option>
+                                    </optgroup>
+                                    <optgroup label="Nam Nha Trang">
+                                        <option value="Nam NT (Phước Long)">Nam NT - Phường Phước Long</option>
+                                        <option value="Nam NT (Vĩnh Trường)">Nam NT - Phường Vĩnh Trường</option>
+                                        <option value="Nam NT (Phước Đồng)">Nam NT - Xã Phước Đồng</option>
+                                    </optgroup>
+                                    <optgroup label="Trung Tâm & Khác">
+                                        <option value="Trung Tâm Nha Trang">Trung Tâm Nha Trang</option>
+                                        <option value="Ninh Hòa / Cam Ranh">Ninh Hòa / Cam Ranh / Khác</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-300 mb-1">3. Mức Độ Nguy Hiểm</label>
+                                <select id="form-severity" class="w-full bg-slate-950 text-slate-200 border border-slate-700 rounded-xl px-2.5 py-2 text-xs font-semibold focus:outline-none focus:border-blue-500">
+                                    <option value="🟢 An Toàn / Bình Thường">🟢 An Toàn / Bình Thường</option>
+                                    <option value="🟡 Ngập Nhẹ (< 0.5m)">🟡 Ngập Nhẹ (&lt; 0.5m)</option>
+                                    <option value="🔴 Nguy Hiểm (Ngập 0.5m - 1.5m)">🔴 Nguy Hiểm (Ngập 0.5-1.5m)</option>
+                                    <option value="🆘 KHẨN CẤP (Cần Xuồng Cứu Hộ)">🆘 KHẨN CẤP (Cần Xuồng)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Author & Address Input -->
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <input type="text" id="form-author" required placeholder="Tên người đăng / Đội cứu hộ..." class="w-full bg-slate-950 text-slate-200 border border-slate-700 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-blue-500">
+                            </div>
+                            <div class="relative">
+                                <input type="text" id="form-address" placeholder="Tổ / Thôn / Số nhà chi tiết..." class="w-full bg-slate-950 text-slate-200 border border-slate-700 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-blue-500 pr-7">
+                                <button type="button" onclick="getGPSLocation()" title="Lấy GPS thực tế" class="absolute right-2 top-2 text-cyan-400 hover:text-cyan-300 text-xs">
+                                    <i class="fa-solid fa-crosshairs"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Content Description -->
+                        <div>
+                            <textarea id="form-content" rows="3" required placeholder="Nội dung chi tiết: Tình hình ngập, mực nước dâng, đường cấm đi, hoặc nhu yếu phẩm cần hỗ trợ..." class="w-full bg-slate-950 text-slate-200 border border-slate-700 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-blue-500 resize-none"></textarea>
+                        </div>
+
+                        <!-- Media Attachment (Multiple Files & Blob Optimization) -->
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-[11px] font-bold text-slate-300">Đính kèm Video / Hình Ảnh</span>
+                                <span class="text-[10px] text-cyan-400">Tối ưu Blob URL phát mượt</span>
+                            </div>
+
+                            <div class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-3 text-center bg-slate-950/50 relative cursor-pointer transition-colors">
+                                <input type="file" id="form-media-files" accept="image/*,video/*" multiple class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="handleMediaSelect(event)">
+                                
+                                <div id="upload-idle" class="space-y-1">
+                                    <i class="fa-solid fa-photo-film text-2xl text-blue-500"></i>
+                                    <p class="text-xs font-semibold text-slate-300">Nhấp để chọn Video hoặc Nhiều Ảnh</p>
+                                    <p class="text-[10px] text-slate-500">Hỗ trợ MP4, MOV, JPG, PNG trực tiếp từ máy</p>
+                                </div>
+
+                                <!-- Dynamic Preview Grid -->
+                                <div id="upload-preview-grid" class="hidden grid grid-cols-3 gap-2 mt-2"></div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white font-black py-2.5 rounded-xl text-xs sm:text-sm shadow-lg shadow-blue-600/30 transition-all flex items-center justify-center gap-2 active:scale-95">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>ĐĂNG TÌNH HÌNH LÊN CỘNG ĐỒNG</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Emergency Rescue Phone Numbers -->
+                <div id="rescue-directory" class="bg-gradient-to-br from-red-950/80 via-slate-900 to-slate-900 rounded-3xl p-5 border border-red-800/60 shadow-xl space-y-3">
+                    <div class="flex items-center justify-between pb-2 border-b border-red-900/60">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span>
+                            <h4 class="font-extrabold text-xs uppercase tracking-wider text-red-200">Hotline Cứu Hộ Khánh Hòa 24/7</h4>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-2 text-xs">
+                        <a href="tel:114" class="bg-red-900/60 hover:bg-red-800/80 border border-red-700/60 p-2.5 rounded-xl flex items-center justify-between text-white font-bold transition-all">
+                            <div>
+                                <p class="text-xs font-black">114 - PCCC & CỨU NẠN CỨU HỘ</p>
+                                <p class="text-[10px] text-red-300 font-normal">Toàn tỉnh Khánh Hòa</p>
+                            </div>
+                            <span class="bg-red-600 px-3 py-1 rounded-lg text-xs font-black shadow"><i class="fa-solid fa-phone"></i> Gọi</span>
+                        </a>
+
+                        <a href="tel:02583822114" class="bg-slate-800/90 hover:bg-slate-800 p-2.5 rounded-xl border border-slate-700 flex items-center justify-between text-white font-bold transition-all">
+                            <div>
+                                <p class="text-xs font-bold">0258.3822.114 - Cứu Hộ Tỉnh</p>
+                                <p class="text-[10px] text-slate-400 font-normal">Ban Chỉ Hào PCTT Khánh Hòa</p>
+                            </div>
+                            <span class="bg-blue-600 px-2.5 py-1 rounded-lg text-xs font-semibold"><i class="fa-solid fa-phone"></i> Gọi</span>
+                        </a>
+
+                        <a href="tel:02583850214" class="bg-slate-800/90 hover:bg-slate-800 p-2.5 rounded-xl border border-slate-700 flex items-center justify-between text-white font-bold transition-all">
+                            <div>
+                                <p class="text-xs font-bold">0258.3850.214 - Cứu Hộ Diên Khánh</p>
+                                <p class="text-[11px] text-slate-400 font-normal">Trực chỉ huy Huyện Diên Khánh</p>
+                            </div>
+                            <span class="bg-emerald-600 px-2.5 py-1 rounded-lg text-xs font-semibold"><i class="fa-solid fa-phone"></i> Gọi</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT SIDE: SOCIAL FEED CONTENT -->
+            <div class="lg:col-span-7 space-y-4">
+                
+                <!-- Call To Action Banner: 1-Minute Video Upload & Call For Help -->
+                <div class="bg-gradient-to-r from-cyan-950 via-slate-900 to-blue-950 rounded-3xl p-4 sm:p-5 border border-cyan-500/40 shadow-2xl relative overflow-hidden">
+                    <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none"></div>
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative z-10">
+                        <div class="space-y-1.5 flex-1">
+                            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-black tracking-wider uppercase border border-cyan-500/30">
+                                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                                🎥 THỜI LƯỢNG KHUYÊN DÙNG: 1 PHÚT
+                            </div>
+                            <h3 class="text-sm sm:text-base font-black text-white leading-snug">
+                                Quay Video 1 Phút Nơi Bạn Ở — Cập Nhật Tình Hình & Cầu Cứu Khẩn Cấp!
+                            </h3>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                Hãy giơ điện thoại quay lại video ngắn <strong class="text-cyan-300">khoảng 1 phút</strong> hình ảnh ngập lụt, mực nước dâng hoặc phát lời kêu gọi cứu hộ trực tiếp từ ngôi nhà của bạn. Video thực tế giúp đội cứu hộ xuồng máy và cộng đồng hình dung chính xác mức độ nguy hiểm để kịp thời tiếp ứng!
+                            </p>
+                        </div>
+                        <button onclick="triggerQuickVideoPost()" class="w-full sm:w-auto bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-black px-4 py-3 rounded-2xl text-xs shadow-lg shadow-cyan-500/30 flex items-center justify-center gap-2 shrink-0 transition-all active:scale-95 border border-cyan-300/30">
+                            <i class="fa-solid fa-video text-yellow-300 text-sm animate-pulse"></i>
+                            <span>QUAY & ĐĂNG VIDEO NGAY</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Regional Filter & Feed Header -->
+                <div class="bg-slate-900 p-3.5 rounded-3xl border border-slate-800 shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-filter text-cyan-400 text-xs"></i>
+                        <span class="text-xs font-bold text-slate-300">Lọc theo Vùng:</span>
+                        <select id="feed-location-filter" onchange="handleFilterChange()" class="bg-slate-950 text-cyan-300 font-bold border border-slate-700 rounded-xl px-3 py-1.5 text-xs focus:outline-none">
+                            <option value="ALL">📍 Tất Cả Khu Vực</option>
+                            <option value="Diên Khánh">🌊 Diên Khánh (Các xã)</option>
+                            <option value="Tây NT">🏞️ Tây Nha Trang (Vĩnh Trung, Vĩnh Thạnh...)</option>
+                            <option value="Bắc NT">⛰️ Bắc Nha Trang (Vĩnh Phương, Vĩnh Hòa...)</option>
+                            <option value="Nam NT">🏖️ Nam Nha Trang (Phước Long, Phước Đồng...)</option>
+                            <option value="Trung Tâm">🏙️ Trung Tâm Nha Trang</option>
+                        </select>
+                    </div>
+
+                    <div class="text-[11px] text-slate-400 font-medium" id="feed-counter">
+                        Đang tải bài đăng...
+                    </div>
+                </div>
+
+                <!-- Posts List Container -->
+                <div id="social-feed-container" class="space-y-4">
+                    <!-- Dynamic Posts render here -->
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- SOS EMERGENCY MODAL -->
+    <div id="sos-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-3">
+        <div class="bg-slate-900 rounded-3xl p-5 max-w-md w-full border border-red-600 shadow-2xl relative space-y-4">
+            <button onclick="closeSosModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center font-bold">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="flex items-center gap-2.5 text-red-500">
+                <i class="fa-solid fa-triangle-exclamation text-2xl animate-bounce"></i>
+                <h3 class="font-black text-lg text-white">GỬI YÊU CẦU CỨU HỘ KHẨN CẤP 🆘</h3>
+            </div>
+            
+            <p class="text-xs text-slate-300 leading-relaxed">
+                Thông tin này sẽ được <strong class="text-red-400">gắn cờ SOS màu đỏ khẩn cấp</strong> trên đầu Bảng tin Mạng Xã Hội để các đội xuồng cứu hộ Diên Khánh & Nha Trang tìm kiếm.
+            </p>
+
+            <form onsubmit="handleSosSubmit(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-bold text-slate-200 mb-1">Họ tên & Số điện thoại người cần cứu</label>
+                    <input type="text" id="sos-name-phone" required placeholder="VD: Nguyễn Văn A - 0905.xxx.xxx" class="w-full bg-slate-950 text-slate-100 border border-slate-700 rounded-xl px-3 py-2">
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-200 mb-1">Địa chỉ chính xác (Số nhà, Thôn/Xã)</label>
+                    <input type="text" id="sos-address" required placeholder="VD: Thôn Diên An, Xã Diên An, Diên Khánh" class="w-full bg-slate-950 text-slate-100 border border-slate-700 rounded-xl px-3 py-2">
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-200 mb-1">Số lượng người & Tình trạng ngập</label>
+                    <textarea id="sos-detail" rows="3" required placeholder="VD: Nhà có 2 người già + 1 trẻ em, nước dâng qua bụng 1m, mất điện..." class="w-full bg-slate-950 text-slate-100 border border-slate-700 rounded-xl px-3 py-2 resize-none"></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-red-600 hover:bg-red-500 text-white font-black py-3 rounded-xl shadow-lg shadow-red-600/40 text-sm uppercase tracking-wide">
+                     phát tín hiệu SOS ngay
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- QR ZOOM MODAL -->
+    <div id="qr-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl p-6 max-w-sm w-full text-center relative shadow-2xl">
+            <button onclick="closeQrModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center font-bold">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="font-extrabold text-white text-base mb-1">Mã QR Ủng Hộ App Cứu Hộ</h3>
+            <p class="text-xs text-slate-400 mb-3">Ủng hộ duy trì máy chủ truyền tải Video bão lũ</p>
+            
+            <div class="bg-white p-3 rounded-2xl inline-block mb-3">
+                <img src="https://api.vietqr.io/image/970422-9888817121989-compact2.png?amount=0&addInfo=UNG%20HO%20APP%20BAO%20LU%20NHA%20TRANG&accountName=HUYNH%20VAN%20THIEU" 
+                     alt="Mã QR HUYNH VAN THIEU" 
+                     class="w-60 h-auto object-contain mx-auto rounded-lg"
+                     onerror="this.onerror=null; this.src='https://placehold.co/260x260/0284c7/FFFFFF?text=HUYNH+VAN+THIEU+QR';">
+            </div>
+
+            <div class="text-left bg-slate-950 p-3 rounded-xl text-xs space-y-1 border border-slate-800">
+                <p><span class="text-slate-400">Ngân hàng:</span> <strong class="text-white">MB BANK (Quân Đội)</strong></p>
+                <p><span class="text-slate-400">Chủ tài khoản:</span> <strong class="text-yellow-400">HUYNH VAN THIEU</strong></p>
+                <p><span class="text-slate-400">Số tài khoản:</span> <span class="font-mono font-bold text-emerald-400 text-sm">9888817121989</span></p>
+            </div>
+            <button onclick="copySTK(); closeQrModal();" class="w-full mt-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl text-xs shadow-md">
+                Sao Chép Số Tài Khoản
+            </button>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 border border-slate-700 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-bold transform translate-y-24 opacity-0 transition-all z-50">
+        <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
+        <span id="toast-msg">Đã thực hiện thành công!</span>
+    </div>
+
+    <!-- APPLICATION LOGIC & DYNAMIC SOCIAL FEED -->
+    <script>
+        // Sample Rescue & Social Posts Data for Khánh Hòa (Cleared mock posts for instant loading)
+        const initialSamplePosts = [];
+
+        let socialPosts = [];
+        let activeCategory = 'ALL';
+        let activeLocation = 'ALL';
+        let currentUploadedFiles = [];
+
+        window.onload = function() {
+            const saved = localStorage.getItem('nt_dk_social_posts_v2');
+            if (saved) {
+                try {
+                    socialPosts = JSON.parse(saved);
+                } catch(e) {
+                    socialPosts = [];
+                }
+            } else {
+                socialPosts = [];
+                savePostsToStorage();
+            }
+            renderSocialFeed();
+        };
+
+        function savePostsToStorage() {
+            // Filter non-serializable blob objects efficiently to save memory
+            const cleanPosts = socialPosts.map(post => {
+                const cleanMedia = post.mediaFiles.map(m => {
+                    if (m.url && m.url.startsWith('blob:')) {
+                        return { type: m.type, url: 'https://placehold.co/600x400/0f172a/FFFFFF?text=Video+Anh+Cap+Nhat+Truc+Tiep' };
+                    }
+                    return m;
+                });
+                return { ...post, mediaFiles: cleanMedia };
+            });
+            localStorage.setItem('nt_dk_social_posts_v2', JSON.stringify(cleanPosts));
+        }
+
+        // Category Tab Switching
+        function setCategory(catKey) {
+            activeCategory = catKey;
+            document.querySelectorAll('.cat-tab-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('bg-slate-900', 'text-slate-300');
+            });
+            const selectedBtn = document.getElementById(`cat-${catKey}`);
+            if (selectedBtn) {
+                selectedBtn.classList.remove('bg-slate-900', 'text-slate-300');
+                selectedBtn.classList.add('bg-blue-600', 'text-white');
+            }
+            renderSocialFeed();
+        }
+
+        function handleFilterChange() {
+            activeLocation = document.getElementById('feed-location-filter').value;
+            renderSocialFeed();
+        }
+
+        function resetFilters() {
+            activeCategory = 'ALL';
+            activeLocation = 'ALL';
+            document.getElementById('feed-location-filter').value = 'ALL';
+            setCategory('ALL');
+        }
+
+        // Render Feed Posts
+        function renderSocialFeed() {
+            const container = document.getElementById('social-feed-container');
+            container.innerHTML = '';
+
+            const filtered = socialPosts.filter(post => {
+                const matchCat = (activeCategory === 'ALL') || (post.category === activeCategory);
+                const matchLoc = (activeLocation === 'ALL') || (post.location.includes(activeLocation));
+                return matchCat && matchLoc;
+            });
+
+            document.getElementById('feed-counter').innerText = `Hiển thị ${filtered.length} bài đăng`;
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-slate-900 rounded-3xl p-8 text-center border border-slate-800 space-y-3">
+                        <div class="w-16 h-16 bg-blue-600/10 text-cyan-400 rounded-2xl flex items-center justify-center mx-auto text-2xl border border-cyan-500/20">
+                            <i class="fa-solid fa-video-slash"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-200 text-sm">Chưa có bài đăng nào trong thư mục này</h4>
+                        <p class="text-xs text-slate-400 max-w-sm mx-auto">Hãy là người đầu tiên đăng video hoặc hình ảnh tình hình mưa lũ khu vực bạn sống để cảnh báo cho bà con!</p>
+                        <button onclick="triggerQuickVideoPost()" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md inline-flex items-center gap-1.5 mt-2">
+                            <i class="fa-solid fa-camera"></i> Đăng Video Cập Nhật Ngay
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(post => {
+                const postCard = document.createElement('div');
+                
+                let isSos = (post.category === 'SOS' || post.severity.includes('KHẨN CẤP'));
+                postCard.className = `bg-slate-900 rounded-3xl p-4 sm:p-5 border ${isSos ? 'border-red-600 shadow-red-900/20' : 'border-slate-800'} shadow-xl space-y-3.5 transition-all`;
+
+                // Badge Styles
+                let sevBadge = "bg-slate-800 text-slate-300 border-slate-700";
+                if (post.severity.includes('KHẨN CẤP')) sevBadge = "bg-red-600 text-white font-black animate-pulse";
+                else if (post.severity.includes('Nguy Hiểm')) sevBadge = "bg-orange-500/20 text-orange-400 border-orange-500/30";
+                else if (post.severity.includes('Ngập Nhẹ')) sevBadge = "bg-yellow-500/20 text-yellow-300 border-yellow-500/30";
+
+                // Media Gallery HTML Generator
+                let mediaGridHtml = '';
+                if (post.mediaFiles && post.mediaFiles.length > 0) {
+                    let mediaItems = post.mediaFiles.map(file => {
+                        if (file.type === 'video') {
+                            return `
+                                <div class="rounded-2xl overflow-hidden bg-black max-h-80 border border-slate-800">
+                                    <video controls class="w-full max-h-80">
+                                        <source src="${file.url}">
+                                        Trình duyệt không hỗ trợ xem video.
+                                    </video>
+                                </div>
+                            `;
+                        } else {
+                            return `
+                                <div class="rounded-2xl overflow-hidden max-h-80 bg-slate-950 border border-slate-800">
+                                    <img src="${file.url}" alt="Hình ảnh" class="w-full h-auto object-cover max-h-80 hover:scale-102 transition-transform cursor-pointer" onclick="window.open('${file.url}')">
+                                </div>
+                            `;
+                        }
+                    }).join('');
+
+                    mediaGridHtml = `<div class="space-y-2">${mediaItems}</div>`;
+                }
+
+                // Comments List HTML
+                let commentsHtml = post.comments.map(c => `
+                    <div class="bg-slate-950 p-2.5 rounded-2xl text-xs space-y-0.5 border border-slate-800/80">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-cyan-300">${escapeHtml(c.name)}</span>
+                            <span class="text-[9px] text-slate-500">${c.time}</span>
+                        </div>
+                        <p class="text-slate-300">${escapeHtml(c.text)}</p>
+                    </div>
+                `).join('');
+
+                postCard.innerHTML = `
+                    <!-- Header Post -->
+                    <div class="flex items-start justify-between gap-2">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-10 h-10 rounded-2xl ${isSos ? 'bg-red-600 text-white' : 'bg-slate-800 text-blue-400'} flex items-center justify-center font-bold text-base shadow">
+                                <i class="${isSos ? 'fa-solid fa-truck-medical' : 'fa-solid fa-user'}"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-white flex items-center gap-1.5">
+                                    ${escapeHtml(post.author)}
+                                    ${isSos ? '<span class="bg-red-600 text-white text-[9px] px-1.5 py-0.2 rounded uppercase font-black">CỨU HỘ SOS</span>' : ''}
+                                </h4>
+                                <p class="text-[11px] text-slate-400 flex items-center gap-1">
+                                    <i class="fa-regular fa-clock"></i> ${post.timestamp}
+                                    <span>•</span>
+                                    <i class="fa-solid fa-location-dot text-red-500"></i> <strong class="text-slate-200">${escapeHtml(post.location)}</strong>
+                                </p>
+                            </div>
+                        </div>
+
+                        <span class="text-[10px] font-extrabold px-2.5 py-1 rounded-xl border ${sevBadge}">
+                            ${escapeHtml(post.severity)}
+                        </span>
+                    </div>
+
+                    <!-- Address tag if provided -->
+                    ${post.address ? `
+                        <div class="bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-xl text-xs text-yellow-300 font-semibold flex items-center gap-2">
+                            <i class="fa-solid fa-house-chimney-crack text-red-400"></i>
+                            <span>Địa chỉ: ${escapeHtml(post.address)}</span>
+                        </div>
+                    ` : ''}
+
+                    <!-- Post Body Content -->
+                    <p class="text-xs sm:text-sm text-slate-200 leading-relaxed font-normal">${escapeHtml(post.content)}</p>
+
+                    <!-- Media Grid -->
+                    ${mediaGridHtml}
+
+                    <!-- Social Actions Bar (Like, Comment, Share) -->
+                    <div class="flex items-center justify-between pt-2.5 border-t border-slate-800/80 text-xs text-slate-400">
+                        <button onclick="toggleLike(${post.id})" class="flex items-center gap-1.5 font-bold ${post.liked ? 'text-red-500' : 'hover:text-red-400'} transition-colors">
+                            <i class="${post.liked ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
+                            <span>${post.likes} Yêu thương</span>
+                        </button>
+
+                        <span class="text-slate-500 text-[11px]"><i class="fa-regular fa-comment"></i> ${post.comments.length} bình luận</span>
+
+                        <button onclick="shareSocialPost(${post.id})" class="hover:text-cyan-400 flex items-center gap-1 font-bold transition-colors">
+                            <i class="fa-solid fa-share"></i> Chia sẻ
+                        </button>
+                    </div>
+
+                    <!-- Comments List & Input Box -->
+        // Fast High-Performance Media Handling & Preview
+        function handleMediaSelect(event) {
+            const files = event.target.files;
+            if (!files || files.length === 0) return;
+
+            // Revoke previous blob URLs to prevent browser memory leak
+            currentUploadedFiles.forEach(f => {
+                if (f.url && f.url.startsWith('blob:')) URL.revokeObjectURL(f.url);
+            });
+            currentUploadedFiles = [];
+
+            const previewGrid = document.getElementById('upload-preview-grid');
+            const idlePlaceholder = document.getElementById('upload-idle');
+
+            previewGrid.innerHTML = '';
+            previewGrid.classList.remove('hidden');
+            idlePlaceholder.classList.add('hidden');
+
+            Array.from(files).forEach(file => {
+                // Instant zero-lag blob stream URL
+                const blobUrl = URL.createObjectURL(file);
+                const isVideo = file.type.startsWith('video/');
+                currentUploadedFiles.push({ type: isVideo ? 'video' : 'image', url: blobUrl });
+
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'relative rounded-xl overflow-hidden max-h-20 bg-slate-950 border border-slate-700 flex items-center justify-center';
+                
+                if (isVideo) {
+                    itemDiv.innerHTML = `
+                        <video src="${blobUrl}#t=0.1" preload="metadata" class="w-full h-20 object-cover"></video>
+                        <span class="absolute top-1 left-1 bg-red-600/90 text-white text-[9px] font-black px-1.5 py-0.5 rounded shadow flex items-center gap-1">
+                            <i class="fa-solid fa-play text-[8px]"></i> VIDEO
+                        </span>
+                    `;
+                } else {
+                    itemDiv.innerHTML = `<img src="${blobUrl}" class="w-full h-20 object-cover">`;
+                }
+                previewGrid.appendChild(itemDiv);
+            });
+
+            showToast(`Đã chọn ${files.length} tệp. Sẵn sàng tải lên!`);
+        }
+
+        // Create New Social Post
+        function handleCreatePost(e) {
+            e.preventDefault();
+
+            const category = document.getElementById('form-category').value;
+            const location = document.getElementById('form-location').value;
+            const severity = document.getElementById('form-severity').value;
+            const author = document.getElementById('form-author').value.trim();
+            const address = document.getElementById('form-address').value.trim();
+            const content = document.getElementById('form-content').value.trim();
+
+            const newPost = {
+                id: Date.now(),
+                category: category,
+                author: author,
+                location: location,
+                severity: severity,
+                address: address,
+                content: content,
+                mediaFiles: [...currentUploadedFiles],
+                likes: 0,
+                liked: false,
+                comments: [],
+                timestamp: 'Vừa xong'
+            };
+
+            socialPosts.unshift(newPost);
+            savePostsToStorage();
+            renderSocialFeed();
+
+            document.getElementById('social-post-form').reset();
+            currentUploadedFiles = [];
+            document.getElementById('upload-preview-grid').classList.add('hidden');
+            document.getElementById('upload-idle').classList.remove('hidden');
+
+            showToast('Đã đăng bài cập nhật thành công!');
+        }
+
+        // Interactive Functions: Like, Comment, SOS
+        function toggleLike(postId) {
+            const post = socialPosts.find(p => p.id === postId);
+            if (post) {
+                post.liked = !post.liked;
+                post.likes += post.liked ? 1 : -1;
+                savePostsToStorage();
+                renderSocialFeed();
+            }
+        }
+
+        function addComment(postId) {
+            const input = document.getElementById(`comment-input-${postId}`);
+            const text = input.value.trim();
+            if (!text) return;
+
+            const post = socialPosts.find(p => p.id === postId);
+            if (post) {
+                post.comments.push({ name: 'Người dân Nha Trang', text: text, time: 'Vừa xong' });
+                savePostsToStorage();
+                renderSocialFeed();
+            }
+        }
+
+        function handleSosSubmit(e) {
+            e.preventDefault();
+
+            const namePhone = document.getElementById('sos-name-phone').value.trim();
+            const address = document.getElementById('sos-address').value.trim();
+            const detail = document.getElementById('sos-detail').value.trim();
+
+            const sosPost = {
+                id: Date.now(),
+                category: 'SOS',
+                author: namePhone,
+                location: 'Diên Khánh / Nha Trang',
+                severity: 'NAV_SOS',
+                address: address,
+                content: `🆘 YÊU CẦU CỨU HỘ KHẨN CẤP: ${detail}`,
+                mediaFiles: [],
+                likes: 1,
+                liked: true,
+                comments: [],
+                timestamp: 'Vừa xong'
+            };
+
+            socialPosts.unshift(sosPost);
+            savePostsToStorage();
+            closeSosModal();
+            renderSocialFeed();
+            showToast('ĐÃ PHÁT TÍN HIỆU CỨU HỘ SOS THÀNH CÔNG!');
+        }
+
+        function getGPSLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const lat = position.coords.latitude.toFixed(4);
+                    const lng = position.coords.longitude.toFixed(4);
+                    document.getElementById('form-address').value = `Tọa độ GPS: ${lat}, ${lng}`;
+                    showToast('Đã lấy tọa độ GPS thực tế!');
+                }, () => {
+                    showToast('Vui lòng bật định vị GPS trên trình duyệt!');
+                });
+            }
+        }
+
+        function shareSocialPost(id) {
+            showToast('Đã sao chép liên kết chia sẻ bài đăng!');
+        }
+
+        function openSosModal() { document.getElementById('sos-modal').classList.remove('hidden'); }
+        function closeSosModal() { document.getElementById('sos-modal').classList.add('hidden'); }
+        function openQrModal() { document.getElementById('qr-modal').classList.remove('hidden'); }
+        function closeQrModal() { document.getElementById('qr-modal').classList.add('hidden'); }
+
+        function copySTK() {
+            const stk = document.getElementById('stk-text').innerText;
+            const temp = document.createElement('input');
+            temp.value = stk;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+            showToast('Đã sao chép STK MB Bank: ' + stk);
+        }
+
+        function triggerQuickVideoPost() {
+            // Chuyển danh mục form về Video/Hình ảnh trực tiếp
+            const formCat = document.getElementById('form-category');
+            if (formCat) {
+                formCat.value = 'MEDIA';
+            }
+            // Cuộn mượt lên form đăng bài
+            document.getElementById('social-post-form').scrollIntoView({ behavior: 'smooth' });
+            // Mở thoại chọn tệp video/ảnh
+            const fileInput = document.getElementById('form-media-files');
+            if (fileInput) {
+                fileInput.click();
+            }
+            showToast('Hãy chọn video 1 phút trong máy của bạn để tải lên!');
+        }
+
+        function scrollToSupport() {
+            document.getElementById('support-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3000);
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
+```
